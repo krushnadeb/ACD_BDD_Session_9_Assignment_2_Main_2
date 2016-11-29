@@ -1,4 +1,4 @@
--------------Q.1. Find the number of students who scored less than 5(50%).
+-------------Q.1. Find the number of students who scored less than 5(50%)
 
 studentdata = LOAD 'Session9_Assign2_StudentDS.txt' USING PigStorage(',')as (Name:chararray,ColUndertaken:chararray,Dob: chararray,Stream:chararray,Grade:float,State:chararray,City:chararray);
 
