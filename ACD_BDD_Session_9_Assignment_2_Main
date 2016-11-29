@@ -1,0 +1,92 @@
+-------------Q.1
+. Find the number of students who scored less than 5(50%).
+
+studentdata = LOAD 'Session9_Assign2_StudentDS.txt' USING PigStorage(',')as (Name:chararray,ColUndertaken:chararray,Dob: chararray,Stream:chararray,Grade:float,State:chararray,City:chararray);
+
+studentdata_ranked = rank studentdata;
+
+studentdata_ranked_excludeheader= filter studentdata_ranked by (rank_studentdata>1);
+
+filterScore_less5 = filter studentdata_ranked_excludeheader by Grade<5 ;
+
+filterStudent = foreach filterScore_less5 Generate 1 as Constant,Grade;
+
+groupByConstant = GROUP filterStudent   BY Constant;
+
+countAll = FOREACH groupByConstant GENERATE COUNT(filterStudent.Grade);
+
+dump countAll;
+
+
+(188)
+
+
+
+
+-----------------Q2.
+List the name of students who are from Alaska
+
+
+studentdata = LOAD 'Session9_Assign2_StudentDS.txt' USING PigStorage(',')as (Name:chararray,ColUndertaken:chararray,Dob: chararray,Stream:chararray,Grade:float,State:chararray,City:chararray);
+
+studentdata_ranked = rank studentdata;
+
+studentdata_ranked_excludeheader= filter studentdata_ranked by (rank_studentdata>1);
+
+filterState_alaska = filter studentdata_ranked_excludeheader by State == 'alaska' ;
+
+filterStudent_alaska = FOREACH filterState_alaska Generate Name;
+
+dump filterStudent_alaska;
+
+
+
+
+------------------Q3.How many government collages are there in Alabama?
+ 
+
+
+studentdata = LOAD 'Session9_Assign2_StudentDS.txt' USING PigStorage(',')as (Name:chararray,ColUndertaken:chararray,Dob: chararray,Stream:chararray,Grade:float,State:chararray,City:chararray);
+
+studentdata_ranked = rank studentdata;
+
+studentdata_ranked_excludeheader= filter studentdata_ranked by (rank_studentdata>1);
+
+filterState_alabama_gov = filter studentdata_ranked_excludeheader by ((State == 'alabama') and (ColUndertaken=='goverenment')) ;
+
+filterCollege_alabama_gov  = FOREACH filterState_alabama_gov  Generate ColUndertaken,State;
+
+dump filterCollege_alabama_gov;
+
+groupBygov= GROUP filterCollege_alabama_gov   BY ColUndertaken;
+
+countAll = FOREACH groupBygov GENERATE COUNT(filterCollege_alabama_gov.ColUndertaken);
+
+dump countAll;
+
+
+
+(2196)
+
+
+
+-----------------------4.List the name of students who are from Oregon and persuing BE.
+
+
+studentdata = LOAD 'Session9_Assign2_StudentDS.txt' USING PigStorage(',')as (Name:chararray,ColUndertaken:chararray,Dob: chararray,Stream1:chararray,Grade:float,State:chararray,City:chararray);
+
+studentdata_ranked = rank studentdata;
+
+studentdata_ranked_excludeheader= filter studentdata_ranked by (rank_studentdata>1);
+
+filterState_oregon_be = filter studentdata_ranked_excludeheader by ((State == 'oregon') and ( Stream1 == 'BE')) ;
+
+filterStudent_oregon_be = FOREACH filterState_oregon_be Generate Name;
+
+dump filterStudent_oregon_be;
+
+
+
+
+
+--------------------
